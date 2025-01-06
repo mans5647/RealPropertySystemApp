@@ -1,0 +1,55 @@
+﻿<Window x:Class="RealPropertySystemApp.windows.Home"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RealPropertySystemApp.windows"
+        mc:Ignorable="d"
+        Title="Домашняя страница" Height="600" Width="1000"
+        Background="#FF2E3440">
+    <Window.Resources>
+        <ResourceDictionary Source="..\Styles.xaml" />
+    </Window.Resources>
+
+    <Grid Margin="15">
+
+        <!-- Grid Definitions -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Header row with dynamic height -->
+            <RowDefinition Height="*" />
+            <!-- Main content area -->
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.35*" />
+            <!-- Left panel width -->
+            <ColumnDefinition Width="0.65*" />
+            <!-- Right panel width -->
+        </Grid.ColumnDefinitions>
+
+        <!-- Header Section -->
+        <Label Grid.Row="0" Grid.Column="0" Name="welcomeLabel"
+               Style="{StaticResource PrimaryLabelStyle}" FontSize="24" Padding="10"
+               VerticalAlignment="Center" HorizontalAlignment="Left" Content="Добро пожаловать!" />
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Name="metaPanel" Orientation="Horizontal"
+                    HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Button Style="{StaticResource SwitchButtonStyle}" Width="100" Height="30" Content="Выйти" Name="ExitButton">
+                
+            </Button>
+            <Label Name="leftTimeout" Style="{StaticResource SecondaryLabelStyle}" Content="Тайм-аут: 10 мин." />
+        </StackPanel>
+
+        <!-- Actions Section -->
+        <StackPanel Grid.Row="1" Grid.Column="0" Name="actionsBox"
+                    Orientation="Vertical" Background="{StaticResource ButtonHoverBackground}"
+                    Margin="15" VerticalAlignment="Stretch">
+            
+        </StackPanel>
+
+        <!-- Frame for Content -->
+        <Frame Grid.Row="1" Grid.Column="1" Name="mainFrame" NavigationUIVisibility="Hidden"
+               Style="{StaticResource FrameStyle}" Margin="15" />
+    </Grid>
+</Window>

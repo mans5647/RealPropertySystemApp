@@ -1,0 +1,33 @@
+﻿<Page x:Class="RealPropertySystemApp.pages.SessionListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RealPropertySystemApp.pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SessionListPage">
+
+    <Page.Resources>
+        <ResourceDictionary Source="..\Styles.xaml"></ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid Background="{StaticResource WindowBackground}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0">
+            <TextBlock Style="{StaticResource TextBlockStyleWithWhiteText}" Name="LoadTb"></TextBlock>
+            <TextBlock Style="{StaticResource TextBlockStyleWithWhiteText}" Text="Gdr" Name="SessionCountTb"></TextBlock>
+            <Button Style="{StaticResource RoundButtonRedWithWhite}" Width="120" Height="25" Content="Очистить все"></Button>
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" x:Name="SessionsTable" Style="{StaticResource TableStyleSessions}">
+        </DataGrid>
+        
+        
+    </Grid>
+</Page>

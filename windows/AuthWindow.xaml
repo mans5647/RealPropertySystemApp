@@ -1,0 +1,27 @@
+﻿<Window x:Class="RealPropertySystemApp.windows.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Вход в систему" Height="600" Width="800"
+        Background="#FF2E3440"
+        >
+    <Window.Resources>
+        <ResourceDictionary Source="..\Styles.xaml" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Панель переключения страниц -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20">
+            <Button Content="Авторизация" Style="{StaticResource SwitchButtonStyle}" Name="AuthSwitch" Width="100" Height="30"/>
+            <Button Content="Регистрация" Style="{StaticResource SwitchButtonStyle}" Name="RegSwitch" Width="100" Height="30" />
+            <Button Content="Сохраненные входы" Style="{StaticResource SwitchButtonStyle}" Width="150" Height="30" Name="ShowSavedSessionsButton"></Button>
+        </StackPanel>
+
+        <!-- Frame для загрузки страниц -->
+        <Frame Name="MainFrame" Grid.Row="1" Margin="20" Style="{StaticResource FrameStyle}" NavigationUIVisibility="Hidden" />
+    </Grid>
+</Window>
