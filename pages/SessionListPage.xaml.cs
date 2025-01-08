@@ -1,5 +1,7 @@
 ﻿using RealPropertySystemApp.codes;
+using RealPropertySystemApp.ui;
 using RealPropertySystemApp.utils;
+using RealPropertySystemApp.windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +61,7 @@ namespace RealPropertySystemApp.pages
             updaterCanceler = tokenSource.Token;
             
             AddColumnsToDG();
-
+            RegisterCallbacks();
         }
 
         private void AddColumnsToDG()
@@ -103,6 +105,76 @@ namespace RealPropertySystemApp.pages
             SessionsTable.Columns.Add(SessionIsRecoveryAvailable);
             SessionsTable.Columns.Add(SessionRecoveryTimeLeft);
             SessionsTable.Columns.Add(SessionUserLastLoginHeader);
+        }
+
+        private void RegisterCallbacks()
+        {
+            SessionsTable.MouseDoubleClick += OnDoubleClickedItem;
+        }
+
+        private async void OnDoubleClickedItem(object sender, EventArgs e)
+        {
+            DataGrid dg = (DataGrid)sender;
+
+            var wnd = Window.GetWindow(this);
+            var sessionRow = dg.SelectedItem as SessionRow;
+            var index = dg.SelectedIndex;
+            bool isRedirectAllowed = false;
+            if (sessionRow != null )
+            {
+                var session = sessionRow.Value;
+                
+                if (session.isSessionExpired())
+                {
+                    if (session.isRecoveryAvailable())
+                    {
+                        var Result =  MessageBox.Show("Вы можете восстановить сессию. Продолжить?", "Восстановление сессии", MessageBoxButton.YesNo);
+                        if (Result == MessageBoxResult.Yes)
+                        {
+                            var nJwt = await RPClient.GetClient().RefreshToken(session.Jwt.RefreshToken);
+
+                            session.Jwt = nJwt;
+                            session.Last = true;
+                            session.LastLoginTime = DateTime.Now;
+                            
+                            Session.SetCurrent(session);
+                            Session.RewriteAt(session, index);
+
+                            Session.SaveAll();
+
+                            isRedirectAllowed = true;
+                        }
+                    }
+                    else
+                    {
+                        var notify = FloatNotification.withClassicChildIncluded("Ошибка", "Пройдите процедуру авторизации заново", wnd);
+                        await notify.ShowAnimated();
+                    }
+                }
+
+                else
+                {
+                    session.Last = true;
+                    session.LastLoginTime = DateTime.Now;
+
+                    Session.SetCurrent(session);
+
+                    Session.RewriteAt(session, index);
+                    Session.SaveAll();
+                    isRedirectAllowed = true;
+
+                }
+
+                if (isRedirectAllowed)
+                {
+                    var homeWnd = new Home();
+                    homeWnd.StartTimeoutCalculation();
+                    homeWnd.Show();
+
+                    wnd.Close();
+                }
+
+            }
         }
 
         public async void ReloadAll()

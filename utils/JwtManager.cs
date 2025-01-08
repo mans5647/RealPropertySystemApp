@@ -36,5 +36,12 @@ namespace RealPropertySystemApp.utils
 
             return credits[name].ToObject<T>();
         }
+
+        public static DateTime GetExpProperty(string token)
+        {
+            long secs = GetPayloadPropertyAs<long>("exp", token);
+
+            return DateTimeOffset.FromUnixTimeSeconds(secs).ToLocalTime().DateTime;
+        }
     }
 }

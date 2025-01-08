@@ -151,7 +151,21 @@ namespace RealPropertySystemApp.utils
             return registrationResult;
         }
 
-        
+        public async Task<JwtResponse> RefreshToken(string token)
+        {
+            HttpRequestMessage requestMessage = new HttpRequestMessage();
+            requestMessage.Method = HttpMethod.Post;
+            
+            requestMessage.Headers.Add("RefreshToken", token);
+
+            var response = await httpClient.SendAsync(requestMessage);
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var jwtResponse = JsonConvert.DeserializeObject<JwtResponse>(content);
+            
+            return jwtResponse;
+        }
 
         public async Task <UserModel> GetUserByLogin(string login, string accessToken)
         {

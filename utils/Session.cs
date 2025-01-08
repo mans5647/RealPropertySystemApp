@@ -96,6 +96,12 @@ namespace RealPropertySystemApp.utils
             return TimeLeft == TimeSpan.Zero || DateTime.Now >= SessionExpireTime;
         }
 
+        public bool isRecoveryAvailable()
+        {
+            var dtExp = JwtManager.GetExpProperty(Jwt.RefreshToken);
+            
+            return DateTime.Now <= dtExp;
+        }
         public string GetLogin()
         {
             return CurrentUser.login;
@@ -160,7 +166,7 @@ namespace RealPropertySystemApp.utils
 
             if (!isSessionFileExists())
             {
-                File.Create(FullyPathToFile());
+                File.Create(FullyPathToFile()).Close();
             }
 
             string jData = JsonConvert.SerializeObject(sessions);
