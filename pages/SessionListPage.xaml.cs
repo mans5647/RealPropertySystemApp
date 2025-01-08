@@ -136,7 +136,7 @@ namespace RealPropertySystemApp.pages
                             session.Jwt = nJwt;
                             session.Last = true;
                             session.LastLoginTime = DateTime.Now;
-                            
+                            session.SessionExpireTime = JwtManager.GetExpProperty(session.Jwt.AccessToken);
                             Session.SetCurrent(session);
                             Session.RewriteAt(session, index);
 

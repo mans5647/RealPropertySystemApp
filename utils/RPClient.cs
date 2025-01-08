@@ -155,7 +155,7 @@ namespace RealPropertySystemApp.utils
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage();
             requestMessage.Method = HttpMethod.Post;
-            
+            requestMessage.RequestUri = new Uri("/api/public/refresh_token", UriKind.Relative);
             requestMessage.Headers.Add("RefreshToken", token);
 
             var response = await httpClient.SendAsync(requestMessage);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace RealPropertySystemApp.bodies
 
         private string? _access_token;
 
+        [JsonProperty("access")]
         public string AccessToken
         {
             get => _access_token != null ? _access_token : "none";
@@ -27,6 +29,8 @@ namespace RealPropertySystemApp.bodies
         }
 
         private string? _refresh_token;
+
+        [JsonProperty("refresh")]
         public string RefreshToken
         {
             get => _refresh_token != null ? _refresh_token : "none";
