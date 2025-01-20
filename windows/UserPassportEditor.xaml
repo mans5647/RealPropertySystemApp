@@ -1,0 +1,65 @@
+﻿<Window x:Class="RealPropertySystemApp.windows.UserPassportEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RealPropertySystemApp.windows"
+        mc:Ignorable="d"
+        Title="Редактирование паспорта" Height="450" Width="500">
+
+    <Window.Resources>
+        <ResourceDictionary Source="..\Styles.xaml"></ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid Margin="20" Background="{StaticResource WindowBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+
+        <!-- Division Code -->
+        <Label Content="Код подразделения" Style="{StaticResource PrimaryLabelStyle}" Grid.Row="1" Grid.Column="0" />
+        <TextBox Style="{StaticResource TextBoxStyle}" Grid.Row="1" Grid.Column="1"  Name="XPassportCodeDiv" Margin="10,10,10,10" />
+
+        <!-- Series -->
+        <Label Content="Серия" Style="{StaticResource PrimaryLabelStyle}" Grid.Row="2" Grid.Column="0" />
+        <TextBox Style="{StaticResource TextBoxStyle}" Grid.Row="2" Grid.Column="1" Name="XPassportSeries" Margin="10,10,10,10" />
+
+        <!-- Number -->
+        <Label Content="Номер" Style="{StaticResource PrimaryLabelStyle}" Grid.Row="3" Grid.Column="0" />
+        <TextBox Margin="10,10,10,10"  Style="{StaticResource TextBoxStyle}" Grid.Row="3" Grid.Column="1" Name="XPassportNum" />
+
+        <!-- Sex -->
+        <Label Content="Пол" Style="{StaticResource PrimaryLabelStyle}" Grid.Row="4" Grid.Column="0" />
+        <ComboBox Grid.Row="4" Grid.Column="1" Name="XPassportGenderCh" Margin="10,10,10,10" >
+            <ComboBoxItem Content="Мужской" />
+            <ComboBoxItem Content="Женский" />
+        </ComboBox>
+
+        <!-- Given By -->
+        <Label Content="Выдан" Style="{StaticResource PrimaryLabelStyle}" Grid.Row="5" Grid.Column="0" />
+        <TextBox Style="{StaticResource TextBoxStyle}" Grid.Row="5" Grid.Column="1" Name="XPassportGivenBy" Margin="10,10,10,10"  />
+
+        <!-- Given Date -->
+        <Label Content="Дата выдачи" Style="{StaticResource PrimaryLabelStyle}" Grid.Row="6" Grid.Column="0" />
+        <DatePicker Grid.Row="6" Grid.Column="1" Name="XPassportGivenDate" Margin="10,10,10,10"  />
+
+        <!-- Buttons -->
+        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,0,0,0">
+            <Button x:Name="DoSaveButton" Content="Сохранить" Style="{StaticResource SwitchButtonStyle}" Width="120" Height="40"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

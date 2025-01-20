@@ -1,0 +1,70 @@
+﻿<Page x:Class="RealPropertySystemApp.pages.UsersViewer"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:RealPropertySystemApp.pages"
+      xmlns:app="clr-namespace:RealPropertySystemApp.ui.filters" 
+      mc:Ignorable="d"
+      d:DesignHeight="500" d:DesignWidth="800"
+      Title="Пользователи">
+
+    <Page.Resources>
+        <ResourceDictionary Source="..\Styles.xaml"></ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <app:UserFilter Margin="20,20,20,20" x:Name="UserFilterBar">
+            
+        </app:UserFilter>
+
+        <!-- DataGrid for displaying user information -->
+        <DataGrid x:Name="UsersDataGrid"
+                  Grid.Row="1"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  HeadersVisibility="Column"
+                  Style="{StaticResource TableStyleSessions}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding id}" Width="50" />
+                <DataGridTextColumn Header="Логин" Binding="{Binding login}" Width="150" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding firstName}" Width="150" />
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding lastName}" Width="150" />
+                <DataGridTextColumn Header="Дата рождения" Binding="{Binding birthDate, StringFormat=dd.MM.yyyy}" Width="120" />
+                <DataGridTextColumn Header="Роль пользователя" Binding="{Binding userRole.RoleName}" Width="150" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Pagination Controls -->
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="0,10,0,0">
+            <Button x:Name="PreviousPageButton"
+                    Content="Назад"
+                    Command="{Binding PreviousPageCommand}"
+                    IsEnabled="{Binding CanGoToPreviousPage}"
+                    Style="{StaticResource EnhancedSwitchButtonStyle}"
+                    Margin="5,0" />
+            <TextBlock 
+                x:Name="CounterTb"
+                       FontSize="16" 
+                       VerticalAlignment="Center"
+                Style="{StaticResource SecondaryTextBlockStyle}"
+                       Margin="15,0" />
+            <Button x:Name="NextPageButton"
+                    Content="Вперед"
+                    Command="{Binding NextPageCommand}"
+                    IsEnabled="{Binding CanGoToNextPage}"
+                    Style="{StaticResource EnhancedSwitchButtonStyle}"
+                    Margin="5,0" />
+
+            <Button Content="Добавить" x:Name="AddUserBtn" Style="{StaticResource EnhancedSwitchButtonStyle}"/>
+            <Button Content="Удалить" x:Name="DeleteUserBtn" Style="{StaticResource RoundButtonRedWithWhite}"/>
+
+        </StackPanel>
+    </Grid>
+</Page>
