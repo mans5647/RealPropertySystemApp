@@ -15,6 +15,10 @@ namespace RealPropertySystemApp.ui
     public class FloatNotification : Popup
     {
         private Window? window;
+        private bool isFullSized;
+        private delegate void ParentResizedCallback(bool r);
+
+        private event ParentResizedCallback ParentResized;
 
         public FloatNotification()
         {
@@ -26,6 +30,9 @@ namespace RealPropertySystemApp.ui
             PlacementRectangle = new Rect(window.Left, window.Top, 0, 0);
             Width = sW;
             Height = sH;
+            isFullSized = false;
+            MaxWidth = Constants.NotificationSizeWMax;
+            MaxHeight = Constants.NotificationSizeHMMax;
             Placement = PlacementMode.Bottom;
             this.window = window;
             HorizontalOffset = 110;
@@ -35,6 +42,7 @@ namespace RealPropertySystemApp.ui
             this.window.Closing += OnRootClose;
             this.window.LocationChanged += OnRootLocationChanged;
             this.window.SizeChanged += OnSizeChanged;
+            MouseDown += OnMouseDown;
         }
 
         protected void OnRootClose(object sender, EventArgs e)
@@ -60,6 +68,24 @@ namespace RealPropertySystemApp.ui
         {
             SetBottomRightPlaceLocation();
             UpdateLayout();
+        }
+
+        private void OnMouseDown(object obj, RoutedEventArgs args)
+        {
+            if (isFullSized)
+            {
+                Width = Constants.NotificationSizeW;
+                Height = Constants.NotificationSizeH;
+                isFullSized = false;
+                ParentResized(false);
+            }
+            else
+            {
+                Width = MaxWidth;
+                Height = MaxHeight;
+                isFullSized = true;
+                ParentResized(true);
+            }
         }
 
         public void Show()
@@ -190,10 +216,19 @@ namespace RealPropertySystemApp.ui
         {
             FloatNotification notification = new FloatNotification(Constants.NotificationSizeW, Constants.NotificationSizeH, parent);
             notification.SetBottomRightPlaceLocation();
-            notification.SetChild(new ClassicNotificationContent(title, description));
+            
+            var childContent = new ClassicNotificationContent(title, description);
+
+            notification.ParentResized += childContent.OnParentResizedEvent;
+
+            notification.SetChild(childContent);
             return notification;
         }
 
+        public static FloatNotification Create(string title, string description, Window parent)
+        {
+            return withClassicChildIncluded(title, description, parent);
+        }
         
     }
 }

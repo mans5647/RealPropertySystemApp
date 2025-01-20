@@ -105,7 +105,7 @@ namespace RealPropertySystemApp.windows
                 case "ADMIN":
                     actionsBox.Children.Add(buttons["admin_1"]);
                     actionsBox.Children.Add(buttons["admin_2"]);
-
+                    actionsBox.Children.Add(buttons["btn_open_logs_page"]);
                     break;
                 
                 case "CLIENT":
@@ -125,6 +125,10 @@ namespace RealPropertySystemApp.windows
 
             ExitButton.Click += ExitButtonClicked;
 
+            buttons["btn_open_logs_page"].Click += OpenLogsBtnClicked;
+
+            buttons["admin_1"].Click += OnClickViewUsers;
+
         }
 
         private Dictionary<string, Button> BuildAllButtons()
@@ -138,13 +142,15 @@ namespace RealPropertySystemApp.windows
             ClassicButton addProperty = new ClassicButton("Добавить свою недвижимость", Resources);
             
             adminViewAllUsersButton.Content = "Просмотреть пользователей";
-            adminViewAllUsersButton.Style = (Style)Resources["SwitchButtonStyle"];
+            adminViewAllUsersButton.Style = (Style)Resources["EnhancedSwitchButtonStyle"];
 
             adminViewAllActionsButton.Content = "История действия";
-            adminViewAllActionsButton.Style = (Style)Resources["SwitchButtonStyle"];
+            adminViewAllActionsButton.Style = (Style)Resources["EnhancedSwitchButtonStyle"];
             
             manageProfileButton.Content = "Подробнее о профиле";
-            manageProfileButton.Style = (Style)Resources["SwitchButtonStyle"];
+            manageProfileButton.Style = (Style)Resources["EnhancedSwitchButtonStyle"];
+
+            ClassicButton buttonOpenLogsView = new ClassicButton("Посмотреть логи", Resources);
 
             return new Dictionary<string, Button>
             {
@@ -153,10 +159,17 @@ namespace RealPropertySystemApp.windows
                 {"all_manage_profile", manageProfileButton },
                 {"show_deals", showDialsHistoryButton },
                 {"add_property", addProperty},
-                {"show_props", showAvailablePropertiesButton }
+                {"show_props", showAvailablePropertiesButton },
+                {"btn_open_logs_page", buttonOpenLogsView}
             };
 
 
+        }
+
+        private async void OnClickViewUsers(object sender, EventArgs e)
+        {
+            var viewer = await UsersViewer.Create();
+            mainFrame.Content = viewer;
         }
 
         private void onClickProfileEdit(object from, RoutedEventArgs args)
@@ -182,6 +195,11 @@ namespace RealPropertySystemApp.windows
             Session.GetCurrent().Last = false;
             Session.SaveAll();
             Close();
+        }
+
+        private void OpenLogsBtnClicked(object sender, RoutedEventArgs args)
+        {
+            mainFrame.Content = new LogViewPage();
         }
 
     }

@@ -1,7 +1,11 @@
 ﻿using Newtonsoft.Json;
+using RealPropertySystemApp.bodies;
+using RealPropertySystemApp.codes;
 using RealPropertySystemApp.events;
 using RealPropertySystemApp.models;
+using RealPropertySystemApp.ui;
 using RealPropertySystemApp.utils;
+using RealPropertySystemApp.windows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -28,6 +32,8 @@ namespace RealPropertySystemApp.pages
         private UserModel editable;
         private readonly UserModel originalModel;
         private MainEvents.UserChanged callback;
+        private UserPassportEditor EditorWnd;
+        private bool IsEmbedded = true;
         private string token;
         public UserProfileEditPage(UserModel prevInfo, string accessToken)
         {
@@ -39,6 +45,7 @@ namespace RealPropertySystemApp.pages
             editable.login = prevInfo.login;
             editable.id = prevInfo.id;
             editable.userRole = prevInfo.userRole;
+            editable.passport = prevInfo.passport;
             editable.lastName = prevInfo.lastName;
             editable.firstName = prevInfo.firstName;
             editable.birthDate = prevInfo.birthDate;
@@ -47,17 +54,20 @@ namespace RealPropertySystemApp.pages
             originalModel = prevInfo;
             token = accessToken;
 
-            editable.password = JwtManager.GetPayloadProperty("password", accessToken);
-
+            
             SaveUserBtn.Click += OnSaveButtonClick;
-
+            EditPassportBtn.Click += EditPassportClicked;
             fillInProps();
             
         }
 
         private void fillInProps()
         {
-
+            if (editable.login != null)
+            {
+                xlogin.Text = editable.login;
+                filledStatus_login.Text = null;
+            }
             if (editable.firstName != null)
             {
                 xfname.Text = editable.firstName;
@@ -78,6 +88,11 @@ namespace RealPropertySystemApp.pages
                 xpassword.Password = editable.password;
                 filledStatus_password.Text = null;
             }
+
+            if (editable.passport != null)
+            {
+                filledStatus_passport.Text = "Есть";
+            }
         }
 
         public static UserProfileEditPage withUserModel(UserModel data, string accessToken)
@@ -85,9 +100,21 @@ namespace RealPropertySystemApp.pages
             return new UserProfileEditPage(data, accessToken);
         }
 
+        public static UserProfileEditPage Create(UserModel model, bool Embedded)
+        {
+            var editPage = new UserProfileEditPage(model, Session.GetCurrent().getAT());
+            editPage.IsEmbedded = Embedded;
+            return editPage;
+        }
+
         public void SetOnUpdateCallback(MainEvents.UserChanged callback)
         {
             this.callback = callback;
+        }
+
+        private void OnPassportSaved(Passport passport)
+        {
+            editable.passport = passport;
         }
 
         private async void OnSaveButtonClick(object sender, EventArgs e)
@@ -101,10 +128,38 @@ namespace RealPropertySystemApp.pages
 
             RPClient client = RPClient.GetClient();
 
-            var fetched = await client.UpdateUserByLogin(editable, token);
+            try
+            {
+                var fetched = await client.UpdateUserByLogin(editable, token);
+                callback(fetched);
 
-            callback(fetched);
+                if (!IsEmbedded)
+                {
+                    Window.GetWindow(this).Close();
+                }
 
+            }
+            catch (InvalidUserBodyException ex)
+            {
+                ValidationResponse response = ex.Get();
+
+                string desc = string.Empty;
+
+                var errs = response.Errors;
+
+                foreach (FieldError i in errs)
+                {
+                    desc += (i.Message + '\n');
+                }
+
+                await FloatNotification.Create(ex.Message, desc, Window.GetWindow(this)).ShowAnimated();
+            }
+        }
+
+        private void EditPassportClicked(object sender, RoutedEventArgs e)
+        {
+            EditorWnd = UserPassportEditor.NewWithPassport(editable.passport, OnPassportSaved);
+            EditorWnd.Show();
         }
 
         private void onPasswordChanged(object sender, EventArgs e)

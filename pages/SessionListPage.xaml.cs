@@ -16,7 +16,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static System.Collections.Specialized.BitVector32;
 
 namespace RealPropertySystemApp.pages
 {
@@ -143,6 +142,7 @@ namespace RealPropertySystemApp.pages
                             Session.SaveAll();
 
                             isRedirectAllowed = true;
+                            
                         }
                     }
                     else

@@ -14,6 +14,17 @@
     <SolidColorBrush x:Key="LabelForeground" Color="#D8DEE9" />
     <SolidColorBrush x:Key="LabelSecondaryForeground" Color="#A3BE8C" />
 
+    <SolidColorBrush x:Key="LogBack" Color="#521155"></SolidColorBrush>
+    
+    <SolidColorBrush x:Key="AccentBrush" Color="#0078D7" />
+
+    <!-- Фон элементов списка -->
+    <SolidColorBrush x:Key="ListItemBackground" Color="#FFFFFF" />
+
+    <!-- Цвет текста -->
+    <SolidColorBrush x:Key="TextBrush" Color="#333333" />
+
+
     <!-- Стиль кнопок -->
     <Style x:Key="SwitchButtonStyle" TargetType="Button">
         <Setter Property="FontSize" Value="15" />
@@ -194,6 +205,191 @@
         
     </Style>
 
+    <Style x:Key="LogViewerBack" TargetType="ScrollViewer">
+        <Setter Property="Background" Value="#521155"></Setter>
+        <Setter Property="FontSize" Value="20"></Setter>
+    </Style>
+    
+    <Style x:Key="LogTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="#FFFFFF" />
+        <Setter Property="Padding" Value="5,2" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+
+    <Style x:Key="EnhancedSwitchButtonStyle" TargetType="Button">
+        <!-- Set height, padding, and margin -->
+        <Setter Property="Height" Value="45" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource ButtonForeground}" />
+        <Setter Property="Background" Value="{StaticResource ButtonBackground}" />
+        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="Margin" Value="15,10" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonHoverBackground}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="8">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <!-- Hover effect -->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverBackground}" />
+                            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                        </Trigger>
+                        <!-- Pressed effect -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="{StaticResource ButtonHoverBackground}" />
+                            <Setter Property="Opacity" Value="0.9" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+
+
+
+    <Style x:Key="EnhancedDataGridStyle" TargetType="DataGrid">
+        <Setter Property="HorizontalGridLinesBrush" Value="#E0E0E0" />
+        <Setter Property="VerticalGridLinesBrush" Value="#E0E0E0" />
+        <Setter Property="GridLinesVisibility" Value="All" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="BorderBrush" Value="#D6D6D6" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="RowBackground" Value="White" />
+        <Setter Property="AlternatingRowBackground" Value="#F9F9F9" />
+        <Setter Property="ColumnHeaderHeight" Value="35" />
+        <Setter Property="RowHeight" Value="30" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#333333" />
+        <Setter Property="CanUserAddRows" Value="False" />
+        <Setter Property="SelectionMode" Value="Single" />
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGrid">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}">
+                        <ScrollViewer x:Name="DG_ScrollViewer" 
+                                  Focusable="false" 
+                                  HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}" 
+                                  VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}">
+                            <ScrollViewer.Template>
+                                <ControlTemplate TargetType="ScrollViewer">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <!-- DataGrid Header -->
+                                        <DataGridColumnHeadersPresenter 
+                                        Grid.Row="0" 
+                                        Grid.Column="0" 
+                                        Visibility="{Binding HeadersVisibility, RelativeSource={RelativeSource AncestorType=DataGrid}}"/>
+                                        <!-- DataGrid Rows -->
+                                        <ScrollContentPresenter 
+                                        Grid.Row="1" 
+                                        Grid.Column="0"/>
+                                        <!-- Vertical Scrollbar -->
+                                        <ScrollBar 
+                                        x:Name="PART_VerticalScrollBar" 
+                                        Orientation="Vertical" 
+                                        Grid.Row="1" 
+                                        Grid.Column="1"
+                                        Maximum="{TemplateBinding ScrollableHeight}" 
+                                        ViewportSize="{TemplateBinding ViewportHeight}" 
+                                        Value="{TemplateBinding VerticalOffset}"/>
+                                        <!-- Horizontal Scrollbar -->
+                                        <ScrollBar 
+                                        x:Name="PART_HorizontalScrollBar" 
+                                        Orientation="Horizontal" 
+                                        Grid.Row="2" 
+                                        Grid.Column="0"
+                                        Maximum="{TemplateBinding ScrollableWidth}" 
+                                        ViewportSize="{TemplateBinding ViewportWidth}" 
+                                        Value="{TemplateBinding HorizontalOffset}"/>
+                                    </Grid>
+                                </ControlTemplate>
+                            </ScrollViewer.Template>
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#F3F3F3" />
+                    <Setter Property="BorderBrush" Value="#D6D6D6" />
+                    <Setter Property="BorderThickness" Value="0,0,1,1" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Foreground" Value="#333333" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridColumnHeader">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="BorderBrush" Value="#E0E0E0" />
+                    <Setter Property="BorderThickness" Value="0,0,1,1" />
+                    <Setter Property="Padding" Value="5" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 

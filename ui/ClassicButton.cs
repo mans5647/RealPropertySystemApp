@@ -14,7 +14,7 @@ namespace RealPropertySystemApp.ui
         public ClassicButton(string text, ResourceDictionary parent)
         {
             Content = text;
-            Style = (Style)parent["SwitchButtonStyle"];
+            Style = (Style)parent["EnhancedSwitchButtonStyle"];
             Resources = parent;
         }
 

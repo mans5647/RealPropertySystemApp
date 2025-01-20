@@ -33,7 +33,8 @@ namespace RealPropertySystemApp.pages
     public partial class AuthPage : Page
     {
         private MainEvents.LoginPerformed? loginEvent;
-        
+
+        private static ILoggerService logger = LoggerServiceFactory.CreateFileLogger(typeof(AuthPage));
         public AuthPage()
         {
             InitializeComponent();
@@ -51,7 +52,7 @@ namespace RealPropertySystemApp.pages
         {
 
             RPClient client = RPClient.GetClient();
-            doLoginButton.IsEnabled = false;
+            //doLoginButton.IsEnabled = false;
             var task = client.Authenticate(login_input.Text, password_input.Password);
             var data = await task;
 
@@ -64,7 +65,7 @@ namespace RealPropertySystemApp.pages
             switch (code)
             {
                 case AuthCode.AuthLoginNotFound:
-                    errorDesc = "Неправильный логин";
+                    errorDesc = "Пользователь не найден";
                     break;
                 case AuthCode.AuthPasswordIncorrect:
                     errorDesc = "Неправильный пароль";
@@ -131,6 +132,7 @@ namespace RealPropertySystemApp.pages
                 case GenericCode.NetError:
 
                     errorDesc = "Ошибка подключения!";
+                    logger.error("Auth failed, check internet connection!");
                     break;
             }
 

@@ -17,6 +17,8 @@ namespace RealPropertySystemApp.models
         private string _lastname;
         private TimeSpan? _sessionTimeout;
         private DateTime? _birthDate;
+        private Passport? _pp;
+
 
         private UserRole? _userRole;
 
@@ -85,6 +87,13 @@ namespace RealPropertySystemApp.models
         {
             get { return _sessionTimeout; }
             set { _sessionTimeout = value; }
+        }
+
+        
+        public Passport passport
+        {
+            get => _pp;
+            set => _pp = value;
         }
 
         public UserRole userRole

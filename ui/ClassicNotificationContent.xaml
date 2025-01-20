@@ -12,7 +12,7 @@
     </UserControl.Resources>
 
     <!-- Wrap the Grid inside a Border -->
-    <Border Background="{StaticResource WindowBackground}" CornerRadius="10">
+    <Border Background="{StaticResource WindowBackground}" CornerRadius="10" BorderThickness="2" BorderBrush="AliceBlue" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>

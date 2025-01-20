@@ -15,6 +15,7 @@ namespace RealPropertySystemApp.bodies
         public UserModel user { get { return _user; } set { _user = value; } }
 
         private long _roleId;
+        private long _passportId;
 
         [JsonProperty("role_id")]
         public long roleId
@@ -22,6 +23,13 @@ namespace RealPropertySystemApp.bodies
             get { return _roleId; }
             set { _roleId = value; }
 
+        }
+
+        [JsonProperty("passport_id")]
+        public long passportId
+        {
+            get { return _passportId; }
+            set { _passportId = value; }
         }
     }
 }

@@ -10,6 +10,8 @@ namespace RealPropertySystemApp.codes
     {
         public const double NotificationSizeW = 350.0;
         public const double NotificationSizeH = 100;
+        public const double NotificationSizeWMax = 720;
+        public const double NotificationSizeHMMax = 360;
         public const int StdNotificationTimelifeMillis = 5000;
     }
 }

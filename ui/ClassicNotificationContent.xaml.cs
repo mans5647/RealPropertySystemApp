@@ -39,6 +39,18 @@ namespace RealPropertySystemApp.ui
 
         }
 
+        public void OnParentResizedEvent(bool fullSizes)
+        {
+            if (fullSizes)
+            {
+                DescriptionTb.Text = fullMessage;
+            }
+            else
+            {
+                DescriptionTb.Text = fullMessage.Substring(0, fullMessage.Length / 2) + "...";
+            }
+        }
+
         public void SetTimeoutLeftSeconds(int seconds)
         {
             SecondsRemeiningTb.Text = seconds.ToString();

@@ -90,7 +90,7 @@ namespace RealPropertySystemApp.utils
 
         public static Session GetCurrent() => current;
 
-        
+        public string getAT() => Jwt.AccessToken;
         public bool isSessionExpired()
         {
             return TimeLeft == TimeSpan.Zero || DateTime.Now >= SessionExpireTime;

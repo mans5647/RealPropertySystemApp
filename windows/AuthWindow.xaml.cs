@@ -44,8 +44,13 @@ namespace RealPropertySystemApp.windows
             AuthSwitch.Click += onSwitchAuthPressed;
             RegSwitch.Click += onSwitchRegPressed;
             ShowSavedSessionsButton.Click += OnShowSavedSessionsButtonClick;
-            
-            
+
+            Loaded += OnLoadedLoadSessionCallback;
+
+        }
+
+        private void OnLoadedLoadSessionCallback(object sender, RoutedEventArgs e)
+        {
             if (Session.isSessionFileExists())
             {
                 if (!Session.isFileEmpty())
@@ -54,9 +59,16 @@ namespace RealPropertySystemApp.windows
                     Session.LoadAllFromFile(ref stat);
 
                     Session s = Session.findByMaxLastLogin();
+                    
+                    if (s.isSessionExpired()) {
 
-                    if (s.Last)
-                    {
+                        ShowTokenExpiredNotification();
+                        return;
+                    }
+
+
+                    if (s.Last) {
+                        
                         s.LastLoginTime = DateTime.Now;
                         s.TimeLeft = TimeSpan.MinValue;
                         Session.SetCurrent(s);
@@ -64,12 +76,12 @@ namespace RealPropertySystemApp.windows
                         homeWindow = new Home();
                         homeWindow.StartTimeoutCalculation();
                         homeWindow.Show();
+                    
                     }
 
                 }
             }
         }
-
 
         public void onSwitchAuthPressed(object sender, EventArgs e)
         {
@@ -99,17 +111,10 @@ namespace RealPropertySystemApp.windows
             RegSwitch.IsEnabled = true;
         }
 
-        private async void showTokenExpiredWin()
+        private async void ShowTokenExpiredNotification()
         {
-            var uiDisp = this.Dispatcher;
-            await Task.Run(() =>
-            {
-                Thread.Sleep((int)(1.5 * 1000));
-                uiDisp.Invoke(() =>
-                {
-                    MessageBox.Show("Сессия истекла, перезайдите в систему");
-                });
-            });
+            var nt = FloatNotification.Create("Ошибка", "Токен истек", this);
+            await nt.ShowAnimated();
         }
     }
 }

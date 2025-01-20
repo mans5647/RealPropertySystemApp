@@ -25,6 +25,8 @@ namespace RealPropertySystemApp.pages
     public partial class RegisterPage : Page
     {
         private TextBox codeInputBox;
+
+        private static ILoggerService logger = LoggerServiceFactory.CreateFileLogger(typeof(RegisterPage));
         public RegisterPage()
         {
             InitializeComponent();
@@ -108,7 +110,8 @@ namespace RealPropertySystemApp.pages
                     case GenericCode.NoError:
 
                         canContinue = true;
-                        
+
+                        logger.info(" === reg: The creation of the account was succeed! ===");
 
                         break;
                     case AuthCode.ErrInvalidFields:
@@ -122,9 +125,15 @@ namespace RealPropertySystemApp.pages
                             description += $"{i + 1}) {error.Message}\r\n";
                         }
 
+                        logger.warn($"== reg: Creation was failed because of {description} ===");
                         break;
-                    default:
+                    case AuthCode.RegisterFailedAccountAlreadyExists:
 
+                        logger.warn("reg failed: User exists in system");
+                        break;
+
+                    default:
+                        logger.warn("reg failed: Unknown error");
                         break;
                 }
 
@@ -144,7 +153,7 @@ namespace RealPropertySystemApp.pages
 
             else
             {
-                
+                logger.error("Registration failed!");
             }
 
         }

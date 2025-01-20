@@ -19,11 +19,24 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- First Name -->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,10" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource SecondaryTextBlockStyle}" 
+               Width="130" VerticalAlignment="Center" 
+               Text="Логин:" />
+            <TextBox MinWidth="300" Name="xlogin" Text="{Binding login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"
+             Style="{StaticResource TextBoxStyle}" Margin="10,0,0,0" />
+            <TextBlock x:Name="filledStatus_login" 
+               Style="{StaticResource SecondaryTextBlockStyle}" 
+               VerticalAlignment="Center" 
+               Text="Не заполнено" Margin="10,0,0,0" />
+        </StackPanel>
+
+        <!-- First Name -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,10" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource SecondaryTextBlockStyle}" 
                        Width="130" VerticalAlignment="Center" 
                        Text="Имя:" />
@@ -36,7 +49,7 @@
         </StackPanel>
 
         <!-- Last Name -->
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,10" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,10" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource SecondaryTextBlockStyle}" 
                        Width="130" VerticalAlignment="Center" 
                        Text="Фамилия:" />
@@ -49,7 +62,7 @@
         </StackPanel>
 
         <!-- Birth Date -->
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Margin="0,10" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,10" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource SecondaryTextBlockStyle}" 
                        Width="130" VerticalAlignment="Center" 
                        Text="Дата рождения:" />
@@ -62,11 +75,11 @@
         </StackPanel>
 
         <!-- Passport Data -->
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,10" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0,10" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource SecondaryTextBlockStyle}" 
                        Width="130" VerticalAlignment="Center" 
                        Text="Паспорт:" />
-            <Button x:Name="editPassportData" Content="Редактировать"
+            <Button x:Name="EditPassportBtn" Content="Редактировать"
                     Style="{StaticResource SwitchButtonStyle}" Width="150" Margin="10,0,0,0" />
             <TextBlock x:Name="filledStatus_passport" 
                        Style="{StaticResource SecondaryTextBlockStyle}" 
@@ -75,7 +88,7 @@
         </StackPanel>
 
         <!-- Password -->
-        <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0,10" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Margin="0,10" VerticalAlignment="Center">
             <TextBlock Style="{StaticResource SecondaryTextBlockStyle}" 
                        Width="130" VerticalAlignment="Center" 
                        Text="Пароль:" />
@@ -89,9 +102,16 @@
         </StackPanel>
 
         <!-- Action Buttons -->
+
         <StackPanel Orientation="Horizontal" Grid.Row="6" HorizontalAlignment="Right" Margin="0,20,0,0">
-            <Button Content="Сохранить" Style="{StaticResource SwitchButtonStyle}" Width="150" Margin="0,0,10,0" Name="SaveUserBtn"/>
-            <Button Content="Отменить" Style="{StaticResource SwitchButtonStyle}" Width="150" />
+            <Button Content="Сохранить" 
+            Style="{StaticResource SwitchButtonStyle}" 
+            Width="150" 
+            Height="40"
+                Margin="0,0,10,0" 
+            Name="SaveUserBtn"/>
         </StackPanel>
+
+
     </Grid>
 </Page>
